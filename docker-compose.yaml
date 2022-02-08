@@ -1,8 +1,8 @@
 version: "3"
 services:
  server:
-  container_name: honda-reward
   build:
-    dockerfile: Dockerfile
+   context: ./
+  image: honda-reward
   ports:
-    - "7009:7009"  
+   - "7009:7009"

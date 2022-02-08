@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	
+	<% include partials/head.ejs %>
+	<link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+	
+	<style type="text/css">
+		
+		table, table tr{
+			width: 100% !important;
+		}
+		
+		#tblUnpostedTransaction{
+			text-align: center;
+		}
+		
+		#tblUnpostedTransaction th{
+			width: 0 !important;
+		}
+		
+		#tblTransaction tr:hover{
+			color: #DD162C !important;
+			cursor: pointer;
+		}
+		
+		#tblItemsToRedeem th{
+			width: 0 !important;
+		}
+		
+		.selectedRow{
+			color: #DD162C !important;
+		}
+		
+		.large-textbox{
+			height: 60px !important;
+		}
+		
+		.btn_action{
+			height: 60px;
+			width: 120px;
+		}
+		
+		.lbl_postingDate{
+			color: #807D7D;
+			font-size: 14px;
+		}
+		
+		.postingDate{
+			color: #DD162C;
+			font-size: 22px;
+			font-weight: bold
+		}
+		
+		/* Customize the label (the container) */
+		.container {
+			display: block;
+			position: relative;
+			padding-left: 15px;
+			cursor: pointer;
+			font-size: 22px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		input[type="date"]::-webkit-calendar-picker-indicator {
+			background: transparent;
+			bottom: 0;
+			color: transparent;
+			cursor: pointer;
+			height: auto;
+			left: 0;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: auto;
+		}
+		
+		input[type=date]::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			display: none;
+		}
+		
+		input[type=number]::-webkit-inner-spin-button, 
+		input[type=number]::-webkit-outer-spin-button { 
+			-webkit-appearance: none; 
+			margin: 0; 
+		}
+		
+		#tblTransactionPosting span{
+			color: #DD162C;
+		}
+		
+		#tblPromotionInternal tr:hover{
+			cursor: pointer;
+		}
+		
+		.unpostedPoints{
+			cursor: pointer;
+			color: #DD162C;
+		}
+		#addItem{
+			cursor: pointer;
+		}
+		
+	</style>
+	
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show"> 
+	
+	<% include partials/header.ejs %>
+	
+	<div class="app-body">
+		
+		<% include partials/sidebar.ejs %>
+		
+		<main class="main p-3">
+			<div id="div_posting">
+				<div class="animated fadeIn">
+					<div class="card h-100 mb-0">
+						<div class="card-header">
+							<b>Transaction Posting</b>
+							<div class="card-header-actions">
+								<button id="generate" class="btn btn-danger btn-sm"> Generate</button>
+								<button id="postTransaction" class="btn btn-danger btn-sm"><i class="fa fa-floppy-o"></i> Post</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Last Posting Date</span><br>
+										<b><span id="lastPostDate" class="loginLabelHolder"  style="color: #DD162C"></span></b>
+									</div>
+								</div>
+								
+								<div class="form-group loginTextBoxHolder col-md-4"> <span class="loginLabelHolder">Start Date</span>
+									<input placeholder="Start Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField dateRange" id="startDate" placeholder="Start Date">
+								</div>
+
+								<div class="form-group loginTextBoxHolder col-md-4"> <span class="loginLabelHolder">End Date</span>
+									<input placeholder="End Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField dateRange" id="endDate" placeholder="End Date">
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<table id="tblUnpostedTransaction" class="table table-striped list" style="border: 1px solid #ececec;">
+										<thead>
+											<tr>
+												<th><input type="checkbox" id="checkAll"></th>
+												<th>No</th>
+												<th>Card Number</th>
+												<th>Customer Name</th>
+												<th>Current Points</th>
+												<th>Unposted Points</th>
+												<th>Projected Points</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div id="div_transactionEditing" style="display: none;">
+				<div class="animated fadeIn">
+					<div class="row">
+						<div class="col-md-5">
+							<div class="card h-100 mb-0">
+								<div class="card-header">
+									<b>Transactions List</b>
+									<div class="card-header-actions">
+										<button type="button" class="btn btn-danger btn-sm" id="btn_back"><i class="fa fa-arrow-left"></i> Back</button>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="input-group mb-3">
+										<input class="form-control" id="searchMember" type="text" placeholder="Search Transaction Number">
+										<span class="input-group-append">
+											<span class="input-group-text">
+												<i class="fa fa-search"></i>
+											</span>
+										</span>
+									</div>
+									
+									<table class="table table-striped table-hover" id="tblTransaction" style="border: 1px solid #ececec;">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Type</th>
+												<th scope="col">Date</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>	
+						</div>
+						
+						<!-- form -->
+						<div id="div_transactionEditingForm" class="col-md-7" style="display: none;">
+							<div class="card h-100 mb-0">
+								<div class="card-header">
+									<b>Edit Transaction</b>
+									<div class="card-header-actions">
+										<button type="button" class="btn btn-danger btn-sm" id="btn_save"><i class="fa fa-floppy-o"></i> Save</button>
+										<button type="button" class="btn btn-danger btn-sm" id="btn_delete"><i class="fa fa-trash"></i> Delete</button>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Card Number</span><br>
+												<b><span id="cardNumber" class="loginLabelHolder" style="color: #DD162C"></span></b>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Earn -->
+									<div class="row earnField" style="display: none;">
+										<div class="col-md-6">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Promo Points Setup</span><br>
+												<b><span id="activePromo" class="loginLabelHolder" style="color: #DD162C"></span></b>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Transaction Date</span>
+												<input placeholder="Transaction Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field dateRange" id="transactionDate" placeholder="Start Date">
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Invoice Number</span>
+												<input type="text" class="large-textbox form-control requiredField field noSpecialCharacter" id="invoiceNumber" placeholder="Invoice Number">
+											</div>
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">OR Number</span>
+												<input type="text" class="large-textbox form-control requiredField field noSpecialCharacter" id="orNumber" placeholder="OR Number">
+											</div>
+										</div>
+									</div>
+									
+									<hr>
+									
+									<!-- Earn -->
+									<div class="earnField" style="display: none;">
+										
+										<table class="col-md-12">
+											
+											<tr>
+												<td style="padding-right: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">General Amount</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" category="general" id="generalAmount" placeholder="General Amount" value="0">
+													</div>
+												</td>
+												<td style="padding-left: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">General Points</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" id="generalPoints" placeholder="General Points" value="0" disabled>
+													</div>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="padding-right: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Services Amount</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" category="services" id="servicesAmount" placeholder="Services Amount" value="0">
+													</div>
+												</td>
+												<td style="padding-left: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Services Points</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" id="servicesPoints" placeholder="Services Points" value="0" disabled>
+													</div>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="padding-right: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Goods Amount</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" category="goods" id="goodsAmount" placeholder="Goods Amount" value="0">
+													</div>
+												</td>
+												<td style="padding-left: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Goods Points</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" id="goodsPoints" placeholder="Goods Points" value="0" disabled>
+													</div>
+												</td>
+											</tr>
+											
+											<tr>
+												<td style="padding-right: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Accessories Amount</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" category="accessories" id="accessoriesAmount" placeholder="Accessories Amount" value="0">
+													</div>
+												</td>
+												<td style="padding-left: 7px; padding-top: 15px;">
+													<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Accessories Points</span>
+														<input type="number" min=0 class="large-textbox form-control requiredField field amount earnProperty" id="accessoriesPoints" placeholder="Accessories Points" value="0" disabled>
+													</div>
+												</td>
+											</tr> 
+											
+										</table>
+										
+									</div>
+									
+									
+									<!-- Redeem -->
+									<div class="row redeemField" style="display: none;">
+										<div class="col-md-6" style="display: none;">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Points</span><br>
+												<b><span id="points" class="loginLabelHolder"></span></b>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Redeemable Points</span><br>
+												<b><span id="redeemablePoints" class="loginLabelHolder"></span></b>
+											</div>
+										</div>
+									</div>
+
+									<table class="redeemField item_serviceField" style="width: 100%; display: none;">
+										<tr>
+											<td style="width: 570px;">
+												<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Redeemable Item / Service</span>
+													<select placeholder="Redeemable Item / Service" id="redeemables" class="large-textbox form-control field"></select>
+												</div>
+											</td>
+											<td style="padding-top: 0 !important"><img id="addItem" src="../images/icons/addRedeemable.png" style="float: right; height: 60px; margin-top: -25px;"></td>
+										</tr>
+									</table>
+
+									<div class="redeemField discountField" style="display: none;">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Points</span>
+                                  <input type="number" class="large-textbox form-control field" id="discountPoints" placeholder="Points" value=0>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Equivalent to peso</span><br>
+                                  <b><span id="dicountEquivalent" class="loginLabelHolder"></span></b>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Transaction Amount</span><br>
+                                  <b><span id="transactionAmount" class="loginLabelHolder"></span></b>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Discounted Amount</span><br>
+                                  <b><span id="discountedAmount" class="loginLabelHolder"></span></b>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+									<div class="row redeemField item_serviceField" style="display: none;">
+										<div class="col-md-6">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Amount</span><br>
+												<b><span id="itemAmount" class="loginLabelHolder"></span></b>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Equivalent Points</span><br>
+												<b><span id="itemPoints" class="loginLabelHolder"></span></b>
+											</div>
+										</div>
+									</div>
+									
+									<table id="tblItemsToRedeem" class="table table-striped list col-md-12 redeemField item_serviceField" style="background: #FFF; border-radius: 7px; width: 100%; display: none;">
+										<thead>
+											<tr>
+												<th>Redeemable Item / Service</th>
+												<th>Amount</th>
+												<th>Points</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+
+									<hr style="margin: 20px 0">
+
+									<div class="row totals">
+										
+										<div class="col-md-6">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Total Amount</span>
+												<input type="number" min=0 class="large-textbox form-control requiredField field amount" id="totalAmount" placeholder="Total Amount" value="0" disabled>
+											</div>
+										</div>
+										
+										<div class="col-md-6">
+											<div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Total Points</span>
+												<input type="text" class="large-textbox requiredField form-control amount" id="totalPoints" placeholder="Total Points" value="0" disabled>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="row" id="div_totalConversion" style="display: none;">
+                                    
+                      <div class="col-md-12">
+                          <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Total conversion of points to value</span>
+                              <input type="number" min=0 class="large-textbox form-control requiredField field amount" id="totalConversion" placeholder="Total conversion of points to value" value="0" disabled>
+                          </div>
+                      </div>
+                      
+                  </div>
+									
+								</div>
+							</div>
+									
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		
+	</div>
+	
+	<% include partials/footer.ejs %>
+	<% include partials/scripts.ejs %>
+	<script>
+		let conversionPoints;
+	</script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	
+	<script src="../js/transactionPosting.js"></script>
+	<script src="../utils/earn.js"></script>
+	<script src="../utils/redeem.js"></script>
+	<script src="../utils/table.js"></script>
+	<script src="../utils/formManager.js"></script>
+	
+</body>
+
+
+</html>

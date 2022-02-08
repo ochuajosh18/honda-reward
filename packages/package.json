@@ -1,0 +1,17 @@
+{
+  "name": "honda",
+  "version": "1.0.0",
+  "description": "System that will allow honda staffs to manage reward points",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emelson Nacion",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "moment": "^2.24.0"
+  }
+}

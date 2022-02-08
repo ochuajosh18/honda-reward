@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <% include partials/head.ejs %>
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    
+    <style type="text/css">
+        th, td {
+            font-size: 12px;
+        }
+        td.dt-nowrap { white-space: nowrap; vertical-align: middle; }
+        th { vertical-align: middle !important; }
+        /* th.dt-center, td.dt-center { text-align: center; } */
+        
+        table tr:hover{
+            color: #DD162C !important;
+            cursor: pointer;
+        }
+        
+        table tr{
+            width: 100%;
+        }
+        
+        .selectedRow {
+            color: #DD162C !important;
+            font-weight: bold;
+        }
+        
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 15px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Hide the browser's default radio button */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        /* Create a custom radio button */
+        .checkmark {
+            display: block;
+            margin: auto;
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+        
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        
+        /* When the radio button is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #31E854;
+        }
+        
+        /* Create the indicator (the dot/circle - hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        
+        /* Show the indicator (dot/circle) when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+        
+        /* Style the indicator (dot/circle) */
+        .container .checkmark:after {
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+        
+        .actionButton{
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+    
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show"> 
+    
+    <% include partials/header.ejs %>
+    
+    <div class="app-body">
+        
+        <% include partials/sidebar.ejs %>
+        
+        <main class="main p-3">
+            <div class="animated fadeIn row h-100">
+                <div class="col-md-5">
+                    <div class="card h-100 mb-0">
+                        <div class="card-header">
+                            <b>Member List</b>
+                            <div class="card-header-actions">
+                                <!-- <button type="button" class="btn btn-danger btn-sm" id="btn_addUser"><i class="fa fa-plus"></i></button> -->
+                            </div>
+                        </div>
+                        <div class="card-body"><div class="input-group">
+                            <input class="form-control form-control-sm" id="search-input" type="text" placeholder="Card # or Member Name">
+                            <span class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </span>
+                        </div>
+                        <table id="tblMember" class="table table-striped table-bordered animated fadeIn"></table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header">
+                                <b>Card Print</b>
+                                <div class="card-header-actions">
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label class="btn btn-danger btn-sm active">
+                                                <input type="radio" name="printSide" id="option1" value="front" autocomplete="off" checked> Front
+                                            </label>
+                                            <label class="btn btn-danger btn-sm">
+                                                <input type="radio" name="printSide" id="option2" value="back" autocomplete="off" > Back
+                                            </label>
+                                        </div>
+                                    <button type="button" class="btn btn-danger btn-sm" id="print"><i class="fa fa-print"></i> Print</button>
+                                </div>
+                            </div>
+                            <div class="card-body" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                                <img id="frontImage" src="../images/card/front.jpg" style="display: none;" />
+                                <img id="backImage" src="../images/card/back.jpg" style="display: none;" />
+                                <img id="barcode" style="display: none;"></img>
+                                <!-- <img id="mainImage" src="http://dev.honda.suites.digital/images/card/front.jpg" style="display: none;" /> -->
+                                
+                                <canvas id="canvas" style="border: 10px solid blue; display: none;"></canvas>
+            
+                                <div style="display: none;">
+                                    <img id="printCardFront" src="" />
+                                </div>
+                                
+                                <img id="preview2" class="img-fluid shadow" src="" style="width: 70%;"/>
+                                
+                            </div>
+                        </div>
+                    </div>
+            </div>
+
+            
+        </main>
+        
+    </div>
+    
+    <% include partials/footer.ejs %>
+    <% include partials/scripts.ejs %>
+    
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.0/barcodes/JsBarcode.code128.min.js"></script>
+    
+    <script src="../js/cardPrinting.js"></script>
+    <script src="../utils/table.js"></script>
+    <script src="../utils/formManager.js"></script>
+</body>
+
+
+</html>

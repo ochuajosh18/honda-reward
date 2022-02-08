@@ -1,0 +1,78 @@
+.forgotPassword a {
+	color: #DD162C;
+	float: right;
+	font-weight: bold;
+}
+
+.forgotPassword a:hover {
+	text-decoration: none;
+	color: #EA2E44;
+}
+
+.loginButton {
+	color: #fff !important;
+	text-align: center;
+	margin-top: 50px;
+	padding: 12px;
+	width: 180px !important;
+	border: none;
+	border-radius: 3px;
+	height: auto;
+}
+
+.loginLogo {
+	height: auto;
+	width: 50%;
+	float: left;
+	margin-top: 70px;
+}
+
+.loginLogo:hover {
+	background: #EA2E44;
+}
+
+.loginTextBoxHolder {
+    height: 70px;
+}
+
+.loginLabelHolder {
+    padding-left: 12px;
+    padding-top: 10px;
+    position: absolute;
+    color: #717171;
+}
+
+.large-textbox {
+	height: 100% !important;
+	padding-top: 30px !important;
+}
+
+.large-textbox::placeholder {
+  color: #CCC;
+  opacity: 1; 
+}
+
+.btn span.glyphicon {    			
+	opacity: 0 !important;				
+}
+
+.btn.active span.glyphicon {				
+	opacity: 1 !important;				
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #CCCCCC !important;
+  font-style: italic;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: #CCCCCC !important;
+  font-style: italic;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: #CCCCCC !important;
+  font-style: italic;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: #CCCCCC !important;
+  font-style: italic;
+}

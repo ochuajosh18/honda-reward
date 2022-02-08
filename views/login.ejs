@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" class="h-100">
+<head> <% include partials/head.ejs %> </head>
+<body class="h-100"> 
+    <div class="container-fluid h-100">
+        <div class="row h-100">
+            <div class="col-md-5 my-auto">
+                
+                <div class="d-flex flex-column w-75 mx-auto">
+                    <h3 class="hondaRedText" style="font-size: 1.875rem;">HCBT ELITE CARD</h3>
+                    <p class="text-muted" style="font-size: 1rem">Diversion Road, Bolbok, Batangas City</p>
+                    
+                    <h1 style="color: #717171; font-size: 1.875rem;" class="mt-4">Welcome back!<br>Please login to your account.</h1>
+                    
+                    <div class="form-row mt-4">
+                        
+                        <div class="col-md-12">
+                            <div class="form-group loginTextBoxHolder"> 
+                                <span class="loginLabelHolder">Username</span>
+                                <input type="text" class="large-textbox form-control" id="userName" placeholder="Username">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <div class="form-group loginTextBoxHolder"> 
+                                <span class="loginLabelHolder">Password</span>
+                                <input type="password" class="large-textbox form-control" id="password" placeholder="Password">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                           <!--  <input type="checkbox" name=""><span style="color: #717171; margin-left: 10px;">Remember me</span> -->
+                        </div>
+                        
+                        <div class="form-group col-md-6">
+                            <span class="forgotPassword"><a href="#">Forgot password?</a></span>
+                        </div>
+                        
+                        <div class="form-group col-md-4 mt-4">
+                            <button type="button" class="btn btn-danger btn-block" id="btn_login">Login</button>
+                        </div>
+                        
+                    </div>
+                    
+                    <div  class="col-md-6 p-0 mt-5">
+                        <img src="../images/logos/loginLogo.png" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-7" style="background-image: url('../images/banners/loginBanner.jpg'); background-size: cover;">
+            </div>
+            
+        </div>
+    </div>
+    
+    <% include partials/scripts.ejs %>
+    <script src="../js/login.js"></script>
+</body>
+</html>

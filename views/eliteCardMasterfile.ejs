@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+    <% include partials/head.ejs %>
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+
+    <style type="text/css">
+        th, td {
+            font-size: 12px;
+        }
+        td.dt-nowrap { white-space: nowrap; vertical-align: middle; }
+        th { vertical-align: middle !important; }
+        /* th.dt-center, td.dt-center { text-align: center; } */
+
+        table tr:hover{
+            color: #DD162C !important;
+            cursor: pointer;
+        }
+        
+        table tr{
+            width: 100%;
+        }
+        
+        .selectedRow{
+            color: #DD162C !important;
+        }
+        
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 15px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Hide the browser's default radio button */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        /* Create a custom radio button */
+        .checkmark {
+            display: block;
+            margin: auto;
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+        
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        
+        /* When the radio button is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #31E854;
+        }
+        
+        /* Create the indicator (the dot/circle - hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        
+        /* Show the indicator (dot/circle) when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+        
+        /* Style the indicator (dot/circle) */
+        .container .checkmark:after {
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+        
+        .actionButton{
+            float: right;
+            cursor: pointer;
+        }
+        
+    </style>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+
+    <% include partials/header.ejs %>
+
+    <div class="app-body">
+
+        <% include partials/sidebar.ejs %>
+
+        <main class="main p-3">
+            <div class="row animated fadeIn">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Elite Card Masterfile</b>
+                            <div class="card-header-actions">
+                                <button type="button" class="btn btn-danger btn-sm" id="generate-report">Generate</button>
+                                <button type="button" class="btn btn-danger btn-sm" id="export-report">Export</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">Membership Start Date</span>
+                                    <input placeholder="Membership Start Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field uniqueField dateRange" id="membershipStart">
+                                </div>
+                                <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">Membership End Date</span>
+                                    <input placeholder="Membership End Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field uniqueField dateRange" id="membershipEnd">
+                                </div>
+                                <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">Expiration Start Date</span>
+                                    <input placeholder="Expiration Start Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field uniqueField dateRange" id="expirationStart">
+                                </div>
+                                <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">Expiration End Date</span>
+                                    <input placeholder="Expiration End Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field uniqueField dateRange" id="expirationEnd">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group loginTextBoxHolder col-md-6"> <span class="loginLabelHolder">Membership Thru</span>
+                                    <select id="membershipThru" placeholder="Membership Thru" class="large-textbox form-control requiredField field">
+                                        <!-- <option selected disabled> - Select - </option> -->
+                                        <option value="">All</option>
+                                        <option value="Free Sales">Free Sales</option>
+                                        <option value="Free Services">Free Services</option>
+                                        <option value="Free CRD">Free CRD</option>
+                                        <option value="Paid">Paid</option>
+                                    </select>
+                                </div>
+                                <div class="form-group loginTextBoxHolder col-md-6"> <span class="loginLabelHolder">Status</span>
+                                    <select id="status" class="large-textbox form-control requiredField field">
+                                        <!-- <option selected disabled> - Select - </option> -->
+                                        <option value="">All</option>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <table id="tblMember" class="table table-striped table-bordered animated fadeIn"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <% include partials/footer.ejs %>
+    <% include partials/scripts.ejs %>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js"></script>
+
+    <script src="../js/eliteCardMasterfile.js"></script>
+    <script src="../utils/provinceAndCities.js"></script>
+    <script src="../utils/formManager.js"></script>
+    <script src="../utils/table.js"></script>
+</body>
+</html>

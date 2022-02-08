@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <% include partials/head.ejs %>
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    
+    <style type="text/css">
+        
+        table tr:hover{
+            color: #DD162C !important;
+            cursor: pointer;
+        }
+        
+        table th{
+            width: 0% !important;
+        }
+        
+        table tr{
+            width: 100%;
+        }
+        
+        .selectedRow{
+            color: #DD162C !important;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        
+        input[type=date]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        
+        .actionButton{
+            float: right;
+            cursor: pointer;
+        }
+        
+        hr{
+            size: 30px !important;
+        }
+        
+    </style>
+    
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show"> 
+    
+    <% include partials/header.ejs %>
+    
+    <div class="app-body">
+        
+        <% include partials/sidebar.ejs %>
+        
+        <main class="main p-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-5">
+                        
+                        <div class="card h-100 mb-0">
+                            <div class="card-header">
+                                <b>Member List</b>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-group mb-3">
+                                    <input class="form-control" id="searchMember" type="text" placeholder="Card # or Member Name">
+                                    <span class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </span>
+                                </div>
+
+                                <table class="table table-striped table-hover" id="tblMember" style="border: 1px solid #ececec;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Card Number</th>
+                                            <th scope="col">Full Name</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Card Activation form -->
+                    <div id="cardActivationForm" class="col-md-7" style="display: none;">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header">
+                                <b>Card Activation Details</b>
+                                <div class="card-header-actions">
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn_save" disabled><i class="fa fa-floppy-o"></i> Save</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="cardActivationForm" >
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Card Number</span><br>
+                                                <b><span id="cardNumber" class="loginLabelHolder" style="color: #DD162C"></span></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Customer Name</span>
+                                                <input type="text" class="large-textbox form-control" id="name" placeholder="Customer Name" disabled="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Address</span>
+                                                <input type="text" class="large-textbox form-control" id="address" placeholder="Address" disabled="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Mobile Number</span>
+                                                <input type="text" class="large-textbox form-control" id="mobileNumber" placeholder="Mobile Number" disabled="true">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Company Phone Number</span>
+                                                <input type="text" class="large-textbox form-control" id="companyPhoneNumber" placeholder="Company Phone Number" disabled="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Email Address</span>
+                                                <input type="text" class="large-textbox form-control" id="email" placeholder="Email Address" disabled="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr style="margin: 30px 0">
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Valid In</span><br>
+                                                <b><span id="validIn" class="loginLabelHolder"></span></b>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"><!-- 
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Valid Thru</span><br>
+                                                <b><span id="validThru" class="loginLabelHolder"></span></b>
+                                            </div> -->
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Valid Thru</span>
+                                                <input placeholder="Valid Thru" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field" id="validThru" placeholder="Membership Date">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Card Status</span>
+                                                <select placeholder="Status" id="status" class="large-textbox form-control requiredField field" disabled>
+                                                    <option selected disabled> - Select - </option>
+                                                    <option value="active">Active</option>
+                                                    <option value="inactive">Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+    
+    <% include partials/footer.ejs %>
+    <% include partials/scripts.ejs %>
+    
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    
+    <script src="../js/cardActivation.js"></script>
+    <script src="../utils/table.js"></script>
+    <script src="../utils/formManager.js"></script>
+    
+</body>
+
+
+</html>

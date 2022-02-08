@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <% include partials/head.ejs %>
+    
+    <style type="text/css">
+        
+        .nav-tabs li{
+            font-size: 18px;
+            padding: 10px;
+        }
+        
+        .nav-tabs li a{
+            color: #DD162C !important;
+            font-size: 18px;
+            padding: 13px;
+        }
+        
+        .nav-tabs li a:hover{
+            text-decoration: none;
+        }
+        
+        .nav-tabs li .active{
+            border-bottom: 3px solid #DD162C;
+        }
+        
+        #divServices input[type='checkbox']{
+            margin: 0 30px 15px 15px;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        
+        input[type=date]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        
+        .searchList{
+            width: 98%;
+            padding: 0px !important;
+            position: absolute;
+            list-style:none;
+            background: #FFF;
+            border-top: 1px solid #ececec;
+        }
+        
+        .searchList li{
+            padding: 3px 7px;
+        }
+        
+        .searchList li:hover{
+            background: #DC3545;
+            color: #FFF;
+            cursor: pointer;
+        }
+        
+        table th{
+            width: 23% !important;
+        }
+        
+        table tr:hover{
+            color: #DD162C !important;
+            cursor: pointer;
+        }
+        
+        table, table tr{
+            width: 100%;
+        }
+        
+        .cardNumberRow:hover{
+            cursor: pointer;
+        }
+        
+    </style>
+    
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show"> 
+    
+    <% include partials/header.ejs %>
+    
+    <div class="app-body">
+        
+        <% include partials/sidebar.ejs %>
+        
+        <main class="main p-3">
+            <div id="divMain" class="animated fadeIn">
+                <div class="card h-100 mb-0">
+                    <div class="card-header">
+                        <b>Members</b>
+                        <div class="card-header-actions">
+                            <button type="button" class="btn btn-danger btn-sm" id="btn_add_external"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input class="form-control" id="searchPromoExternal" type="text" placeholder="Card # or Member Name">
+                            <span class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </span>
+                        </div>
+                        
+                        <table id="tblMember" class="table table-striped" style="border: 1px solid #ececec; width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Card Number</th>
+                                    <th>Name</th>
+                                    <th>Membership Date</th>
+                                    <th>Membership Thru</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div id="divForm" class="animated fadeIn" style="display: none;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-0">
+                            <div class="card-header">
+                                <b>General</b>
+                                <div class="card-header-actions">
+                                    <button type="button" class="btn btn-danger btn-sm btn_back"><i class="fa fa-arrow-left"></i> Back</button>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn_save"><i class="fa fa-floppy-o"></i> Save</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="nav nav-tabs" style="border-bottom: 6px solid #ECECEC !important;">
+                                    <li class="active"><a class="active show" data-toggle="tab" href="#loginDetails">Membership Details</a></li>
+                                    <li><a data-toggle="tab" href="#personalProfile">Personal Profile</a></li>
+                                    <li><a data-toggle="tab" href="#companyProfile">Company Profile</a></li>
+                                </ul>
+                                
+                                <div class="tab-content" style="border: 0 !important">
+                                    
+                                    <div id="loginDetails" class="tab-pane fade in active show">
+                                        
+                                        <!-- Login Details -->
+                                        <div class="form-row">
+                                            
+                                            <div class="col-md-12" id="div_cardNumber">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder" style="padding: 0;">Card Number</span><br>
+                                                    <b><span id="cardNumber" class="loginLabelHolder" style="color: #DD162C; padding: 0;"></span></b>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Membership Date</span>
+                                                    <input placeholder="Membership Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field" id="membershipDate" placeholder="Membership Date">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Membership Type</span>
+                                                    
+                                                    <select id="membershipType" class="large-textbox form-control requiredField field" placeholder="Membership Type">
+                                                        <option selected disabled> - Select - </option>
+                                                        <option value="Primary">Primary</option>
+                                                        <option value="Supplementary">Supplementary</option>
+                                                    </select>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Membership Thru</span>
+                                                    
+                                                    <select id="membershipThru" placeholder="Membership Thru" class="large-textbox form-control requiredField field">
+                                                        <option selected disabled> - Select - </option>
+                                                        <option value="Free Sales">Free Sales</option>
+                                                        <option value="Free Services">Free Services</option>
+                                                        <option value="Free CRD">Free CRD</option>
+                                                        <option value="Paid">Paid</option>
+                                                    </select>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="form-row col-md-12" id="div_registrationNumber">
+                                                
+                                                <div class="form-row col-md-12 registrationNumberInput">
+                                                    <div class="form-group loginTextBoxHolder col-md-6"> <span class="loginLabelHolder">CS Number</span>
+                                                        <input type="text" class="large-textbox form-control registrationNumber csNumber" placeholder="CS Number">
+                                                    </div>
+                                                    <div class="form-group loginTextBoxHolder col-md-5"> <span class="loginLabelHolder">Plate Number</span>
+                                                        <input type="text" class="large-textbox form-control registrationNumber plateNumber" placeholder="Plate Numer">
+                                                    </div>
+                                                    <div class="form-group loginTextBoxHolder col-md-1" style="display: flex; align-items: center; justify-content: center;">
+                                                        <button type="button" class="btn btn-danger btn-lg float-right" id="btn_addRegistrationNumber"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div id="personalProfile" class="tab-pane fade">
+                                        
+                                        <!-- Personal Profile -->
+                                        <div class="form-row">
+                                            
+                                            <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">Family Name</span>
+                                                <input type="text" class="large-textbox form-control requiredField field uniqueField nameField" id="lastName" placeholder="Family Name">
+                                            </div>
+                                            <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">First Name</span>
+                                                <input type="text" class="large-textbox form-control requiredField field uniqueField nameField" id="firstName" placeholder="First Name">
+                                            </div>
+                                            <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">Middle Name</span>
+                                                <input type="text" class="large-textbox form-control field uniqueField nameField" id="middleName" placeholder="Middle Name">
+                                            </div>
+                                            <div class="form-group loginTextBoxHolder col-md-3"> <span class="loginLabelHolder">Suffix</span>
+                                                <input type="text" class="large-textbox form-control field uniqueField nameField" id="suffix" placeholder="Suffix">
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Birthdate</span>
+                                                    <input placeholder="Birthdate" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field uniqueField" id="birthdate">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Email Address</span>
+                                                    <input type="email" class="large-textbox form-control requiredField field" id="email" placeholder="Email Address">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Province</span>
+                                                    <select placeholder="Province" id="province" class="large-textbox form-control requiredField field"></select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Address</span>
+                                                    <input type="text" class="large-textbox form-control requiredField field" id="address" placeholder="Address">
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <!-- <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">City</span>
+                                                    <select placeholder="City" id="city" class="large-textbox form-control requiredField field"></select>
+                                                </div>
+                                            </div> -->
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Gender</span>
+                                                    <select placeholder="Gender" id="gender" class="large-textbox form-control requiredField field">
+                                                        <option selected disabled> - Select - </option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Civil Status</span>
+                                                    <select placeholder="Civil Status" id="civilStatus" class="large-textbox form-control requiredField field">
+                                                        <option selected disabled> - Select - </option>
+                                                        <option value="Single">Single</option>
+                                                        <option value="Married">Married</option>
+                                                        <option value="Divorced">Divorced</option>
+                                                        <option value="Widowed">Widowed</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Mobile Number</span>
+                                                    <input type="number" min=0 oninput="validity.valid||(value='');" class="large-textbox form-control requiredField field" id="mobileNumber" placeholder="Mobile Number">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Fax Number</span>
+                                                    <input type="number" min=0 oninput="validity.valid||(value='');" class="large-textbox form-control field" id="faxNumber" placeholder="Fax Number">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    <div id="companyProfile" class="tab-pane fade">
+                                        
+                                        <!-- Company Profile -->
+                                        <div class="form-row">
+                                            
+                                            <div class="col-md-12">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Company Name</span>
+                                                    <input type="text" class="large-textbox form-control field" id="companyName" placeholder="Company Name">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Company Address</span>
+                                                    <input type="text" class="large-textbox form-control field" id="companyAddress" placeholder="Company Address">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Position</span>
+                                                    <input type="text" class="large-textbox form-control field" id="position" placeholder="Position">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-12">
+                                                <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Phone Number</span>
+                                                    <input type="number" min=0 oninput="validity.valid||(value='');" class="large-textbox form-control field" id="companyPhoneNumber" placeholder="Phone Number" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-0 mt-3">
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Authorized Person</span>
+                                        <input type="text" class="large-textbox form-control requiredField field" id="autorizedPerson" placeholder="Authorized Person">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Endorsed  By</span>
+                                        <input type="text" class="large-textbox form-control requiredField field" id="endorsedBy" placeholder="Endorsed  By">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+            </div>
+        </main>
+        
+    </div>
+    
+    <% include partials/footer.ejs %>
+    <% include partials/scripts.ejs %>
+    
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    
+    <script src="../js/membership.js"></script>
+    <script src="../utils/provinceAndCities.js"></script>
+    <script src="../utils/formManager.js"></script>
+    <script src="../utils/table.js"></script>
+    
+</body>
+
+
+</html>

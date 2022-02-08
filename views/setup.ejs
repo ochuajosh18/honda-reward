@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <% include partials/head.ejs %>
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/coreui-icons.min.css">
+    
+    <style type="text/css">
+        
+        table tr:hover{
+            color: #DD162C !important;
+        }
+        
+        table, table tr{
+            width: 100%;
+        }
+        
+        .selectedRow{
+            color: #DD162C !important;
+        }
+        
+        .promoTitle:hover{
+            cursor: pointer;
+        }
+        
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 15px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        
+        input[type=date]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        
+        #tblPromotionExternal span{
+            color: #DD162C;
+        }
+        
+        #tblPromotionExternal th{
+            width: 20% !important;
+        }
+        
+        #tblPromotionInternal tr:hover{
+            cursor: pointer;
+        }
+        
+    </style>
+    
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show"> 
+    
+    <% include partials/header.ejs %>
+    
+    <div class="app-body">
+        
+        <% include partials/sidebar.ejs %>
+        
+        <main class="main p-3">
+            <div id="div_main" class="animated fadeIn">
+                <div class="card h-100 mb-0">
+                    <div class="card-header">
+                        <b>Promo Points</b>
+                        <div class="card-header-actions">
+                            <button type="button" class="btn btn-danger btn-sm" id="btn_conversion">Change conversion</button>
+                            <button type="button" class="btn btn-danger btn-sm" id="btn_add"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input class="form-control" id="searchPromoExternal" type="text" placeholder="Search Promo" autocomplete="off">
+                            <span class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </span>
+                        </div>
+                        <table id="tblPromotionExternal" class="table table-striped table-hover" style="border: 1px solid #ececec;">
+                            <thead>
+                                <tr>
+                                    <th>Promo Points Title</th>
+                                    <th>General</th>
+                                    <th>Services</th>
+                                    <th>Goods</th>
+                                    <th>Accessories</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="div_form" class="animated fadeIn" style="display: none;">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header">
+                                <b>Promo Points</b>
+                                <div class="card-header-actions">
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn_addInside"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-group mb-3">
+                                    <input class="form-control" id="searchPromoInternal" type="text" placeholder="Search Promo" autocomplete="off">
+                                    <span class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                                <table class="table table-striped table-hover list" id="tblPromotionInternal" style="background: #fff; border: 1px solid #ececec; margin-top: 15px;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Promo Points Title</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-7">
+                        <div class="card mb-0">
+                            <div class="card-header">
+                                <b>General</b>
+                                <div class="card-header-actions">
+                                    <a id="btn_back" href="/setup" role="button" class="btn btn-danger btn-sm"><i class="fa fa-arrow-left"></i> Back</a>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn_refresh"><i class="fa fa-undo"></i> Clear</button>
+                                    <button id="btn_save" class="btn btn-danger btn-sm"><i class="fa fa-floppy-o"></i> Save</button>
+                                    <button id="btn_delete" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Title of Promo Points</span>
+                                            <input type="text" class="large-textbox form-control requiredField field" id="title" placeholder="Title of Promo Points">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" id="divDateRange">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Start Date</span>
+                                            <input placeholder="Start Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field promoField dateRange" id="startDate" placeholder="Start Date">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">End Date</span>
+                                            <input placeholder="End Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field promoField dateRange" id="endDate" placeholder="End Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" style="border-bottom: 2px solid #ECECEC; margin: 0 5px 20px 5px; padding: 5px 0;">
+                                    <h5 class="float-left; margin: 10px; ">Points Setup</h5>
+                                </div>
+                                
+                                <table class="tbl_form">
+                                    <thead style="text-align: center; ">
+                                        <th>MINIMUM</th>
+                                        <th>AMOUNT</th>
+                                    </thead>
+                                    
+                                    <tr>
+                                        <td style="padding-right: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">General Minimum Amount</span>
+                                                <input type="number" min=0; class="large-textbox form-control requiredField field promoField settingField" id="generalMinimumAmount" placeholder="General Minimum Amount" value=0>
+                                            </div>
+                                        </td>
+                                        <td style="padding-left: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">ONE POINT per</span>
+                                                <input type="number" min=0 class="large-textbox form-control requiredField field promoField settingField" id="onePointPerGeneral" placeholder="ONE POINT per (General)" value=0>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td style="padding-right: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Services Minimum Amount</span>
+                                                <input type="number" min=0 class="large-textbox form-control requiredField field promoField settingField" id="servicesMinimumAmount" placeholder="Services Minimum Amount" value=0>
+                                            </div>
+                                        </td>
+                                        <td style="padding-left: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">ONE POINT per</span>
+                                                <input type="number" min=0 class="large-textbox form-control requiredField field promoField settingField" id="onePointPerServices" placeholder="ONE POINT per (Services)" value=0>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td style="padding-right: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Goods Minimum Amount</span>
+                                                <input type="number" min=0 class="large-textbox form-control requiredField field promoField settingField" id="goodsMinimumAmount" placeholder="Goods Minimum Amount" value=0>
+                                            </div>
+                                        </td>
+                                        <td style="padding-left: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">ONE POINT per</span>
+                                                <input type="number" min=0 class="large-textbox form-control requiredField field promoField settingField" id="onePointPerGoods" placeholder="ONE POINT per (Goods)" value=0>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td style="padding-right: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Accessories Minimum Amount</span>
+                                                <input type="number" min=0 class="large-textbox form-control requiredField field promoField settingField" id="accessoriesMinimumAmount" placeholder="Accessories Minimum Amount" value=0>
+                                            </div>
+                                        </td>
+                                        <td style="padding-left: 7px; padding-top: 15px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">ONE POINT per</span>
+                                                <input type="number" min=0 class="large-textbox form-control requiredField field promoField settingField" id="onePointPerAccessories" placeholder="ONE POINT per (Accessories)" value=0>
+                                            </div>
+                                        </td>
+                                    </tr> 
+                                    
+                                </table>
+                                
+                                <div class="row" style="border-bottom: 2px solid #ECECEC; margin: 0 5px 20px 5px; padding: 5px 0;">
+                                    <h5 class="float-left; margin: 10px; ">Redeeming Setup</h5>
+                                </div>
+                                
+                                <div class="col-md-12" style="padding: 0 !important">
+                                    <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">One point is equivalent to (PESO VALUE)</span>
+                                        <input type="number" min=0 class="large-textbox form-control requiredField field promoField" id="equivalent" placeholder="One point is equivalent to (PESO VALUE)" disabled>
+                                    </div>
+                                </div>
+                                
+                                <hr style="margin: 30px 0">
+                                
+                                <div class="col-md-12" style="padding: 0 !important">
+                                    <div class="form-group" style="height: 120px;"> <span class="loginLabelHolder" style="margin-bottom: 30px;">Remarks</span>
+                                        <textarea class="large-textbox form-control field promoField" style="padding-top: 24px !important;" id="remarks" placeholder="Remarks"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+    
+    <% include partials/footer.ejs %>
+    <% include partials/scripts.ejs %>
+    
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    
+    <script src="../js/setup.js"></script>
+    <script src="../utils/table.js"></script>
+    <script src="../utils/formManager.js"></script>
+    
+</body>
+
+
+</html>

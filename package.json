@@ -1,0 +1,38 @@
+{
+  "name": "honda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "honda.js",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "couchbase": "^2.6.4",
+    "dotenv": "^8.0.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "formidable": "^1.2.1",
+    "fs": "0.0.1-security",
+    "gmail-api-create-message-body": "^1.0.0",
+    "google-auth-library": "^5.9.1",
+    "googleapis": "^39.2.0",
+    "http-proxy": "^1.17.0",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.27",
+    "ncp": "^2.0.0",
+    "node-cron": "^2.0.3",
+    "nodemailer": "^6.3.1",
+    "nodemon": "^1.19.1",
+    "path": "^0.12.7",
+    "request-promise": "^4.2.5",
+    "rimraf": "^3.0.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emelson Nacion",
+  "license": "ISC"
+}

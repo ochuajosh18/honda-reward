@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <% include partials/head.ejs %>
+    
+    <style type="text/css">
+        
+        .selectedRow{
+            color: #DD162C !important;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        
+        input[type=date]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+        
+        .searchList{
+            width: 95%;
+            padding: 0px !important;
+            position: absolute;
+            list-style:none;
+            background: #FFF;
+            border: 1px solid #CCC;
+            z-index: 999;
+        }
+        
+        .searchList li{
+            padding: 3px 7px;
+        }
+        
+        .searchList li:hover{
+            background: #DC3545;
+            color: #FFF;
+            cursor: pointer;
+        }
+        
+        table th{
+            width: 40% !important;
+        }
+        
+        #addItem{
+            cursor: pointer;
+        }
+        
+    </style>
+    
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show"> 
+    
+    <% include partials/header.ejs %>
+    
+    <div class="app-body">
+        
+        <% include partials/sidebar.ejs %>
+        
+        <main class="main p-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header">
+                                <b>Card Number Information</b>
+                                <div class="card-header-actions">
+                                    <!-- <button type="button" class="btn btn-danger btn-sm" id="btn_addInside"><i class="fa fa-plus"></i></button> -->
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Search Member</span>
+                                        <input type="text" class="large-textbox form-control" id="searchMember" placeholder="Input Name / Card Number">
+                                        <ul id="searchList" class="searchList" style="display: none;"></ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Customer Name</span><br>
+                                            <b><span id="name" class="loginLabelHolder"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Birthdate</span><br>
+                                            <b><span id="birthdate" class="loginLabelHolder"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Valid Until</span><br>
+                                            <b><span id="validUntil" class="loginLabelHolder"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" style="display: none;">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Points</span><br>
+                                            <b><span id="points" class="loginLabelHolder"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Redeemable Points</span><br>
+                                            <b><span id="redeemablePoints" class="loginLabelHolder"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Transaction form -->
+                    <div id="divTransaction" class="col-md-7" style="display: none;">
+                        
+                        <div class="card h-100 mb-0">
+                            <div class="card-header">
+                                <b>Transaction</b>
+                                <div class="card-header-actions">
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn_refresh"><i class="fa fa-undo"></i> Clear</button>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn_save"><i class="fa fa-floppy-o"></i> Save</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row" style="padding-bottom: 20px;">
+                                    
+                                    <div class="col-md-12">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Card Number</span><br>
+                                            <b><span id="cardNumber" class="loginLabelHolder" style="color: #DD162C"></span></b>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Redeem Type</span>
+                                            <select placeholder="Redeem Type" id="redeemType" class="large-textbox form-control">
+                                                <option value="default" selected disabled> - Select - </option>
+                                                <option value="Discount">Discount</option>
+                                                <option value="Items/Services">Items/Services</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="div_redeemForm" class="col-md-12" style="display: none;">
+                                        
+                                        <div>
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Transaction Date</span>
+                                                <input placeholder="Transaction Date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" class="large-textbox form-control requiredField field dateRange" id="transactionDate" placeholder="Start Date">
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Invoice Number</span>
+                                                <input type="text" class="large-textbox form-control requiredField field noSpecialCharacter" id="invoiceNumber" placeholder="Invoice Number">
+                                            </div>
+                                        </div>
+                                        
+                                        <div>
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">OR Number</span>
+                                                <input type="text" class="large-textbox form-control requiredField field noSpecialCharacter" id="orNumber" placeholder="OR Number">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                    
+                                    <hr>
+                                    
+                                    
+                                </div>
+                                
+                                <hr>
+                                
+                                <table id="redeemItemServicesList" style="width: 100%; display: none;">
+                                    <tr>
+                                        <td style="width: 570px;">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Redeemable Item / Service</span>
+                                                <select placeholder="Redeemable Item / Service" id="redeemables" class="large-textbox form-control"></select>
+                                            </div>
+                                        </td>
+                                        <td style="padding-top: 0 !important"><img id="addItem" src="../images/icons/addRedeemable.png" style="float: right; height: 70px; margin-top: -15px;"></td>
+                                    </tr>
+                                </table>
+                                
+                                <div id="div_itemServicesEquivalent" class="row" style="display: none;">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Amount</span><br>
+                                            <b><span id="itemAmount" class="loginLabelHolder"></span></b>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Equivalent Points</span><br>
+                                            <b><span id="itemPoints" class="loginLabelHolder"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="div_invoiceForm" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Points</span>
+                                                <input type="number" class="large-textbox form-control field" id="discountPoints" placeholder="Points" value=0 disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Equivalent to peso</span><br>
+                                                <b><span id="dicountEquivalent" class="loginLabelHolder"></span></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Transaction Amount</span><br>
+                                                <b><span id="transactionAmount" class="loginLabelHolder"></span></b>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Discounted Amount</span><br>
+                                                <b><span id="discountedAmount" class="loginLabelHolder"></span></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div id="div_RedeemedItems" style="display: none; margin-top: 20px;">
+                                    
+                                    <table id="tblItemsToRedeem" class="table table-striped list col-md-12" style="background: #FFF; border-radius: 7px; width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Redeemable Item / Service</th>
+                                                <th>Amount</th>
+                                                <th>Points</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    
+                                    <hr>
+                                    
+                                    <div class="row">
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Total Amount</span>
+                                                <input type="number" min=0 class="large-textbox form-control field amount" id="totalAmount" placeholder="Total Amount" value="0" disabled>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Total Points</span>
+                                                <input type="text" class="large-textbox form-control amount" id="totalPoints" placeholder="Total Points" value="0" disabled>
+                                            </div>
+                                        </div>
+                                        
+                                    </div> 
+
+                                </div>
+
+                            </div>
+                        </div>
+                                
+                    </div>
+
+                </div>
+            </div>
+        </main>
+        
+    </div>
+    
+    <% include partials/footer.ejs %>
+    <% include partials/scripts.ejs %>
+    
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    
+    <script src="../js/redeem.js"></script>
+    <script src="../utils/table.js"></script>
+    <script src="../utils/formManager.js"></script>
+    
+</body>
+
+
+</html>

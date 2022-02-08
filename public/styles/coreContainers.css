@@ -1,0 +1,80 @@
+html {
+	font-size: 0.875rem; /* 14px */
+}
+/* .app-header .navbar-brand{
+	width: 120px !important;
+} */
+
+/* .mainNav span{
+	cursor: pointer;
+	color: #363636 !important;
+}
+
+.mainNav a:hover{
+	text-decoration: none;
+}
+
+.mainNav .dropdown-item{
+	padding: 10px 15px !important;
+	text-align: center;
+}
+
+.mainNav .dropdown-divider{
+	margin: 0 15px !important;
+}
+
+.nav-top{
+	padding: 0 15px;
+}
+
+.nav-link{
+	color: #DD162C !important;
+} */
+
+.sidebar{
+	background: #fff !important;
+	border-right: 1px solid #ddd !important; 
+}
+
+.sidebar .nav-link.active {
+	background: #E9ECEF !important;
+	border-right: 1px solid #ddd !important; 
+}
+
+.sidebar a.nav-link:hover {
+	background: #F8F9FA !important;
+	border-right: 1px solid #ddd !important; 
+}
+
+.app-footer {
+	background: #363636 !important;
+	color: #fff !important;
+}
+
+.hondaRedBackground{
+	background: #DD162C !important;
+}
+
+.hondaRedText{
+	color: #DD162C !important;
+}
+
+.jconfirm-closeIcon{
+	display: none !important;
+}
+
+div.jumbotron{
+	padding: 30px !important;
+}
+
+.sideBarIcon{
+	height: 6vh;
+	/* height: 5vh;
+	width: auto; */
+}
+
+.icon{
+	height: 27px;
+	width: auto;
+	cursor: pointer;
+}

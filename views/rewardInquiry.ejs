@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    
+    <% include partials/head.ejs %>
+    
+    <style type="text/css">
+        
+        .selectedRow{
+            color: #DD162C !important;
+        }
+        
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: transparent;
+            bottom: 0;
+            color: transparent;
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        
+        input[type=date]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            display: none;
+        }
+        
+        .searchList{
+            width: 95%;
+            padding: 0px !important;
+            position: absolute;
+            list-style:none;
+            background: #FFF;
+            border: 1px solid #CCC;
+            z-index: 999;
+        }
+        
+        .searchList li{
+            padding: 3px 7px;
+        }
+        
+        .searchList li:hover{
+            background: #DC3545;
+            color: #FFF;
+            cursor: pointer;
+        }
+        
+        table th{
+            width: 40% !important;
+        }
+        
+        #addItem{
+            cursor: pointer;
+        }
+        
+    </style>
+    
+</head>
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show"> 
+    
+    <% include partials/header.ejs %>
+    
+    <div class="app-body">
+        
+        <% include partials/sidebar.ejs %>
+        
+        <main class="main p-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="card h-100 mb-0">
+                            <div class="card-header">
+                                <b>Reward Inquiry</b>
+                                <div class="card-header-actions">
+                                    <button type="button" class="btn btn-danger btn-sm" id="btn_refresh"><i class="fa fa-undo"></i> Clear</button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Search Member</span>
+                                        <input type="text" class="large-textbox form-control" id="searchMember" placeholder="Input Name / Card Number">
+                                        <ul id="searchList" class="searchList" style="display: none;"></ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Customer Name</span><br>
+                                            <b><span id="name" class="loginLabelHolder inquiryField"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Birthdate</span><br>
+                                            <b><span id="birthdate" class="loginLabelHolder inquiryField"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Valid Until</span><br>
+                                            <b><span id="validUntil" class="loginLabelHolder inquiryField"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" style="display: none;">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Points</span><br>
+                                            <b><span id="points" class="loginLabelHolder inquiryField"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group loginTextBoxHolder"> <span class="loginLabelHolder">Redeemable Points</span><br>
+                                            <b><span id="redeemablePoints" class="loginLabelHolder inquiryField"></span></b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+    
+    <% include partials/footer.ejs %>
+    <% include partials/scripts.ejs %>
+    
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    
+    <script src="../js/rewardInquiry.js"></script>
+    <script src="../utils/table.js"></script>
+    <script src="../utils/formManager.js"></script>
+    
+</body>
+
+
+</html>

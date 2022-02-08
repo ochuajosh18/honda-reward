@@ -1,0 +1,69 @@
+<header class="app-header navbar" style="padding: 0 !important;">
+  <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/dashboard" style="width: 170px;">
+    <img src="../images/logos/hondaBrand.jpg" style="height: 30px;">
+  </a>
+  <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <ul class="nav navbar-nav ml-auto mr-3">
+
+    <li class="nav-item px-3">
+      <a class="nav-link" href="/changePassword"><span>My Account</span></a>
+    </li>
+
+    <li id="nav_administrator" class="nav-item px-3 dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >
+        Administrator
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" style="padding: 0;">
+
+        <div id="nav_user">
+          <a class="dropdown-item p-2" href="user" style="text-align: center;">User</a>
+          <div class="dropdown-divider" style="margin: 0"></div>
+        </div>
+
+        <div id="nav_setup">
+          <a class="dropdown-item p-2" href="setup" style="text-align: center;">Setup</a>
+          <div class="dropdown-divider"  style="margin: 0"></div>
+        </div>
+
+        <div id="nav_cardActivation">
+          <a class="dropdown-item p-2" href="cardActivation" style="text-align: center;">Card Activation</a>
+          <div class="dropdown-divider"  style="margin: 0"></div>
+        </div>
+
+        <div id="nav_transactionPosting">
+          <a class="dropdown-item p-2" href="transactionPosting" style="text-align: center;">Transaction Posting</a>
+          <div class="dropdown-divider"  style="margin: 0"></div>
+        </div>
+
+        <a id="nav_services" class="dropdown-item p-2" href="redeemable" style="text-align: center;">Services</a>
+
+      </div>
+    </li>
+
+    <li id="nav_reports" class="nav-item px-3 dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >
+        Reports
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" style="padding: 0;">
+        <a class="dropdown-item p-2" href="eliteCardMasterfile" style="text-align: center;">Elite Card Masterfile</a>
+        <div class="dropdown-divider" style="margin: 0"></div>
+        <a class="dropdown-item p-2" href="totalEarnedPoints" style="text-align: center;">Total Earned Points</a>
+        <div class="dropdown-divider"  style="margin: 0"></div>
+        <a class="dropdown-item p-2" href="totalRedeemedPoints" style="text-align: center;">Total Redeemed Points</a>
+        <div class="dropdown-divider"  style="margin: 0"></div>
+        <a class="dropdown-item p-2" href="memberLedger" style="text-align: center;">Member Ledger</a>
+        <div class="dropdown-divider"  style="margin: 0"></div>
+        <a class="dropdown-item p-2" href="transactionLog" style="text-align: center;">Transaction Log</a>
+      </div>
+    </li>
+    <li class="nav-item px-3">
+      <a class="nav-link" href="#"><span id="btn_logout">Logout</span></a>
+    </li>
+  </ul>
+</header>

@@ -1,16 +1,16 @@
-FROM node:10
+FROM node:8.9.0
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm uninstall cookier-parser
+COPY . .
+
+RUN npm uninstall cookie-parser
 
 RUN npm install cookie-parser -s
 
 RUN npm install
-
-COPY . .
 
 EXPOSE 7009
 
